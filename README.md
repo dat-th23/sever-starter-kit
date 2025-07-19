@@ -1,127 +1,144 @@
-# Backend Server Starter Kit with NodeJS/NestJS
+# NestJS Starter Kit
 
-## Introduction
+Một dự án starter kit đầy đủ cho NestJS, tích hợp các công nghệ tốt nhất để phát triển ứng dụng back-end hiệu quả.
 
-This project provides a **standardized backend scaffold** built on the NestJS framework. It features clear modular architecture, designed for scalable, maintainable API and admin systems. The scaffold includes essential features such as authentication, user management, system logging, middleware, configuration, and utility services—ideal for both personal projects and team/enterprise usage.
+## 🚀 Tính năng nổi bật
 
-## Core Features
+- **Cấu trúc dự án chuẩn hóa** theo best practices của NestJS
+- **Authentication** sẵn sàng với JWT
+- **Validation** dữ liệu bằng class-validator
+- **ORM tích hợp** (TypeORM hoặc Prisma - có thể cấu hình)
+- **Environment variables** với `@nestjs/config`
+- **Testing** đầy đủ (unit, e2e)
+- **Error handling** tập trung
+- **Logging** middleware
+- **Docker** hỗ trợ
+- **CI/CD** ready (GitHub Actions)
 
-- **Authentication (`auth/`)**: User registration & login, JWT-based authentication, user/admin role management
-- **User Management (`users/`)**: CRUD operations for user accounts, user profiles, update information
-- **Admin System (`admin/`)**: Admin dashboard, permissions/roles management, activity logs
-- **Common Utilities (`utils/`)**: Utility functions, shared constants, reusable providers
-- **Configuration (`config/`)**: Environment variables, database settings, secret keys management
-- **Middleware (`middleware/`)**: Request logging, role/permission checks, global error handling
-- **Logging System (`logs/`)**: System event logging, integration with advanced log libraries (Winston, Pino, etc.)
+## 📌 Prerequisites
+
+- Node.js v18+
+- npm/yarn
+- Docker (tùy chọn)
+- Database (PostgreSQL/MongoDB - tuỳ chọn)
+
+## 🛠️ Cài đặt & Khởi chạy
+
+### 1. Clone repository
+```bash
+git clone https://github.com/your-username/nestjs-starter-kit.git
+cd nestjs-starter-kit
+```
+
+### 2. Cài đặt dependencies
+```bash
+npm install
+# hoặc
+yarn install
+```
+
+### 3. Cấu hình environment
+Tạo file `.env` từ mẫu:
+```bash
+cp .env.example .env
+```
+Sửa các biến môi trường theo nhu cầu (database, JWT, v.v.)
+
+### 4. Chạy ứng dụng (development)
+```bash
+npm run start:dev
+```
+
+### 5. Truy cập API
+```
+http://localhost:3000/api
+```
 
 ---
 
-## Project Structure
+## ⚙️ Cấu trúc dự án
+
 ```
 src/
-├── auth/ # Authentication: login, register, roles (controller, service, guards)
-├── users/ # User management: CRUD, profile, service
-├── admin/ # Admin dashboard, system management
-├── utils/ # Shared helpers and utilities
-├── config/ # Application & environment configuration
-├── logs/ # Logging management
-├── middleware/ # Custom middlewares: logger, permissions...
-├── app.module.ts
-├── main.ts
-.env # Environment variables (DB, PORT, KEYS, ...)
-package.json
-docker-compose.yml # (Optional) Dockerized environment (DB, Redis, etc.)
+├── common/             # Shared utilities & components
+│   ├── decorators/
+│   ├── filters/
+│   ├── guards/
+│   ├── interceptors/
+│   ├── middlewares/
+│   ├── pipes/
+│   └── utils/
+├── config/             # Configuration management
+│   └── configuration.ts
+├── modules/            # Feature modules
+│   ├── auth/           # Authentication module
+│   │   ├── dtos/
+│   │   ├── entities/
+│   │   ├── strategies/
+│   │   ├── auth.controller.ts
+│   │   ├── auth.module.ts
+│   │   └── auth.service.ts
+│   ├── users/          # Users management module
+│   └── ...             
+├── shared/             # Shared modules
+│   └── database/       # Database module (TypeORM/Prisma)
+├── app.controller.ts   # Root controller
+├── app.module.ts       # Root module
+├── app.service.ts      # Root service
+└── main.ts             # Bootstrap file
+
+test/                   # Test suites
+docker-compose.yml      # Docker configuration
+Dockerfile              # Production Dockerfile
+.env.example            # Environment template
 ```
 
 ---
 
-## Requirements
+## 🧪 Testing
 
-- Node.js >= 18
-- npm or Yarn
-- (Optional) Docker & Docker Compose for consistent local environments
+### Unit tests
+```bash
+npm run test
+```
 
----
+### E2E tests
+```bash
+npm run test:e2e
+```
 
-## Getting Started
-
-1. **Clone the repository**
-    ```
-    git clone <your-repo-url>
-    cd backend-app
-    ```
-
-2. **Install dependencies**
-    ```
-    npm install or yarn
-    ```
-
-
-3. **Set up environment variables**
-- Copy the example file and fill in the values:
-  ```
-  cp .env.example .env
-  ```
-- Edit `.env` for your custom PORT, DB_URL, JWT_SECRET, etc.
-
-4. **Start the server**
-    ```
-    npm run start:dev
-    ```
-- The API will run by default at `http://localhost:3000`
-
-5. **API Documentation**
-- Access Swagger docs at: `http://localhost:3000/api` (if enabled)
+### Coverage report
+```bash
+npm run test:cov
+```
 
 ---
 
-## Main Modules
+## 🔑 Environment Variables
 
-| Module      | Description                                   |
-|-------------|-----------------------------------------------|
-| auth/       | Login, registration, JWT, authorization guards|
-| users/      | User info management, update, search, delete  |
-| admin/      | Dashboard, admin roles, permissions           |
-| utils/      | Helpers, shared constants, reusable functions |
-| config/     | Environment loading, global config            |
-| middleware/ | Logging, auth checks, global error handling   |
-| logs/       | Logging management, extending advanced logs   |
-
----
-
-## Technologies Used
-
-- **NestJS** (core framework)
-- **TypeScript** (type safety)
-- **@nestjs/jwt** (JWT authentication)
-- **@nestjs/config** (environment/config management)
-- **ORM**: Ready to integrate TypeORM/Prisma (not enforced by default)
-- **Winston/Pino** (advanced logging, optional)
-- **Swagger** (API documentation)
-- **Docker** (optional)
+| Tên biến          | Mô tả                          | Giá trị mặc định       |
+|-------------------|--------------------------------|------------------------|
+| `DATABASE_HOST`   | Database host                  | `localhost`            |
+| `DATABASE_PORT`   | Database port                  | `5432`                 |
+| `DATABASE_USER`   | Database username              | `postgres`             |
+| `JWT_SECRET`      | Secret key cho JWT             | `secret`               |
+| `JWT_EXPIRES_IN`  | Thời hạn JWT (ví dụ: 1h, 7d)   | `1h`                   |
+| `PORT`            | Port ứng dụng                  | `3000`                 |
 
 ---
 
-## Development & Extension
+## 🤝 Contributing
 
-- Modular codebase: separate controller, service, DTO, entity for each module
-- Supports unit & integration tests out of the box (NestJS best practices)
-- Easily integrates with Docker for development databases (PostgreSQL, Redis, etc.)
-- Simple to extend with new modules (email, notifications, file upload, payments...)
-
----
-
-## Contribution
-
-Feedback and pull requests are welcome to help improve this backend scaffold for the developer community.
+1. Fork repository
+2. Create your feature branch (`git checkout -b feature/new-feature`)
+3. Commit changes (`git commit -am 'Add some feature'`)
+4. Push to branch (`git push origin feature/new-feature`)
+5. Open a Pull Request
 
 ---
 
-## License
+## 📜 License
 
-MIT License (can be changed for business/personal needs).
+MIT License
 
----
-
-> **Note:**  
-> This scaffold is suited for rapid development of admin systems, backend APIs for web/mobile, microservices, or MVPs. It is designed to easily scale into larger enterprise systems.
+Copyright (c) 2025 dat-th23
